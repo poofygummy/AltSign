@@ -21,25 +21,16 @@ jobs:
         run: |
           echo 'FRAMEWORK_SEARCH_PATHS = $(inherited) ${{ github.workspace }}/Dependencies' > /tmp/altsign.xcconfig
 
-      - name: Install swift-create-xcframework
-        run: |
-          gh release download 2.3.0 --repo unsignedapps/swift-create-xcframework --pattern "swift-create-xcframework*" --output /tmp/
-          unzip -o /tmp/swift-create-xcframework*.zip -d /tmp/scx
-          cp /tmp/scx/swift-create-xcframework /usr/local/bin/
-          chmod +x /usr/local/bin/swift-create-xcframework
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Install swift-create-xcframework via Mint
+        run: mint install unsignedapps/swift-create-xcframework@v2.3.0
 
       - name: Build XCFramework
         run: |
-          swift create-xcframework \
+          mint run unsignedapps/swift-create-xcframework@v2.3.0 \
             --zip \
             --platform ios \
-            --xcodebuild-argument -xcconfig \
-            --xcodebuild-argument /tmp/altsign.xcconfig \
+            --xcconfig /tmp/altsign.xcconfig \
             AltSign
-        env:
-          FRAMEWORK_SEARCH_PATHS: ${{ github.workspace }}/Dependencies
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
