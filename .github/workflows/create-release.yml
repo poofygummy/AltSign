@@ -28,9 +28,10 @@ jobs:
       - name: Install swift-create-xcframework
         run: |
           if ! command -v swift-create-xcframework &>/dev/null; then
-            brew install segment-integrations/formulae/swift-create-xcframework
+            brew install segment-integrations/formulae/swift-create-xcframework || brew link segment-integrations/formulae/swift-create-xcframework
+          else
+            brew link segment-integrations/formulae/swift-create-xcframework 2>/dev/null || true
           fi
-          swift create-xcframework --zip --platform ios
 
       - name: Prepare & zip XCFramework
         id: prepare
