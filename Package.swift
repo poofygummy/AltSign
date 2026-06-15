@@ -25,10 +25,7 @@ let package = Package(
 	],
 
 	targets: [
-		.binaryTarget(
-			name: "OpenSSL",
-			path: "Dependencies/OpenSSL.xcframework"
-		),
+
 
 		
 		.target(
@@ -115,7 +112,7 @@ let package = Package(
 
 		.target(
 			name: "ldid",
-			dependencies: ["ldid-core", "OpenSSL"],
+			dependencies: ["ldid-core"],
 			path: "AltSign/ldid",
 			exclude: [
 				"alt_ldid.hpp"
@@ -138,6 +135,7 @@ let package = Package(
 					"-IDependencies/ldid/libplist/src",
 					"-IDependencies/ldid/libplist/libcnary",
 					"-IDependencies/ldid/libplist/libcnary/include",
+					"-IDependencies/OpenSSL.xcframework/ios-arm64/OpenSSL.framework/Headers",
 					"-w"
 				])
 			],
@@ -155,6 +153,7 @@ let package = Package(
 					"-IDependencies/ldid/libplist/src",
 					"-IDependencies/ldid/libplist/libcnary",
 					"-IDependencies/ldid/libplist/libcnary/include",
+					"-IDependencies/OpenSSL.xcframework/ios-arm64/OpenSSL.framework/Headers",
 					"-w"
 				])
 			]
