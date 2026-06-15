@@ -24,9 +24,10 @@ jobs:
           key: derived-data-${{ runner.os }}-${{ hashFiles('Package.swift', 'Package.resolved') }}
           restore-keys: derived-data-${{ runner.os }}-
 
-      - name: List available schemes
+      - name: Resolve package and list schemes
         run: |
-          xcodebuild -list -package-path .
+          xcodebuild -resolvePackageDependencies
+          xcodebuild -list
 
       - name: Build XCFramework
         run: |
