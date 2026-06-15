@@ -31,6 +31,8 @@ jobs:
       - name: Build XCFramework
         run: |
           swift create-xcframework --zip --platform ios AltSign
+        env:
+          FRAMEWORK_SEARCH_PATHS: ${{ github.workspace }}/Dependencies
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
