@@ -35,15 +35,20 @@ jobs:
 
       - name: Build XCFramework
         run: |
-          swift create-xcframework --zip --platform ios \
+          swift create-xcframework \
+            --zip \
+            --platform ios \
+            --platform ios-simulator \
             --xcodebuild-argument -xcconfig \
             --xcodebuild-argument /tmp/altsign.xcconfig \
-            AltSign
+            AltSign-Dynamic
 
-      - name: Upload XCFramework
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: AltSign-xcframework
-          path: "*.zip"
-          retention-days: 1
-          if-no-files-found: error
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: "*.zip"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
