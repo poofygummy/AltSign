@@ -159,7 +159,7 @@ let package = Package(
 			],
 			linkerSettings: [
 				.unsafeFlags([
-					"-FDependencies",
+					"-F$(SRCROOT)/Dependencies",
 					"-framework", "OpenSSL"
 				])
 			]
@@ -265,7 +265,7 @@ let package = Package(
 					.linkedFramework("Security"),
 					.linkedLibrary("z"),
 					.unsafeFlags([
-						"-FDependencies",
+						"-F$(SRCROOT)/Dependencies",
 						"-framework", "OpenSSL"
 					])
 				]
