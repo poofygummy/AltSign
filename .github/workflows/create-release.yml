@@ -21,12 +21,16 @@ jobs:
         run: |
           echo 'FRAMEWORK_SEARCH_PATHS = $(inherited) ${{ github.workspace }}/Dependencies' > /tmp/altsign.xcconfig
 
-      - name: Install swift-create-xcframework via Mint
-        run: mint install unsignedapps/swift-create-xcframework@v2.3.0
+      - name: Install swift-create-xcframework
+        run: |
+          git clone --depth 1 --branch v2.3.0 https://github.com/unsignedapps/swift-create-xcframework /tmp/swift-create-xcframework
+          cd /tmp/swift-create-xcframework
+          swift build -c release
+          cp .build/release/swift-create-xcframework /usr/local/bin/
 
       - name: Build XCFramework
         run: |
-          mint run unsignedapps/swift-create-xcframework@v2.3.0 \
+          swift-create-xcframework \
             --zip \
             --platform ios \
             --xcconfig /tmp/altsign.xcconfig \
