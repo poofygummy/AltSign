@@ -11,16 +11,16 @@ let package = Package(
 		.macOS(.v11),
 	],
 	products: [
-		.library(
-			name: "AltSign-Dynamic",
-			type: .dynamic,
-			targets: ["AltSign", "CAltSign", "CoreCrypto", "CCoreCrypto", "ldid", "ldid-core"]
-		),
-		.library(
-			name: "AltSign-Static",
-			type: .static,
-			targets: ["AltSign", "CAltSign", "CoreCrypto", "CCoreCrypto", "ldid", "ldid-core"]
-		)
+				.library(
+				name: "AltSign-Dynamic",
+				type: .dynamic,
+				targets: ["AltSign", "CAltSign", "CCoreCrypto", "ldid", "ldid-core"]
+			),
+			.library(
+				name: "AltSign-Static",
+				type: .static,
+				targets: ["AltSign", "CAltSign", "CCoreCrypto", "ldid", "ldid-core"]
+			)
 	],
 
 
@@ -136,26 +136,12 @@ let package = Package(
 			]
 		),
 
-		.target(
-			name: "CoreCrypto",
-			dependencies: ["CCoreCrypto"],
-			path: "Dependencies/corecrypto/Sources",
-			exclude: [
-				"ccsrp.m"
-			],
-			sources: [
-				"CoreCryptoMacros.swift"
-			],
-			cSettings: [
-				.define("CORECRYPTO_DONOT_USE_TRANSPARENT_UNION=1")
-			]
-		),
 
 		
 		.target(
 			name: "CAltSign",
 			dependencies: [
-				"CoreCrypto",
+				"CCoreCrypto",
 				"ldid",
 				"OpenSSL",
 //                 "minizip"
@@ -204,7 +190,7 @@ let package = Package(
 
 		.target(
 			name: "AltSign",
-			dependencies: ["CAltSign", "CoreCrypto", "CCoreCrypto"],
+			dependencies: ["CAltSign", "CCoreCrypto"],
 			path: "AltSign/Sources",
 			cSettings: [
 				.headerSearchPath("Dependencies/minizip"),

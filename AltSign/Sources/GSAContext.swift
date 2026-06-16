@@ -9,7 +9,6 @@
 import Foundation
 
 #if !MARKETPLACE
-import CoreCrypto
 import CCoreCrypto
 #endif
 
