@@ -67,6 +67,25 @@ jobs:
           echo "Found framework at: $FW"
           cp -R "$FW" prebuilt/
 
+          # Assemble Modules/ from DerivedData — SPM doesn't put them inside the .framework
+          mkdir -p prebuilt/AltSign.framework/Modules/AltSign.swiftmodule
+          find /tmp/DerivedData/Build/Intermediates.noindex -name "AltSign.swiftmodule" -type d | head -1 | xargs -I{} cp -R {}/ prebuilt/AltSign.framework/Modules/AltSign.swiftmodule/ 2>/dev/null || true
+          find /tmp/DerivedData/Build/Products -name "*.swiftmodule" -o -name "*.swiftdoc" -o -name "*.swiftinterface" -o -name "*.abi.json" | grep AltSign | while read f; do
+            cp "$f" prebuilt/AltSign.framework/Modules/AltSign.swiftmodule/ 2>/dev/null || true
+          done
+
+          # Write module.modulemap
+          cat > prebuilt/AltSign.framework/Modules/module.modulemap << 'MODULEMAP'
+          framework module AltSign {
+            umbrella header "AltSign.h"
+            export *
+            module * { export * }
+          }
+          MODULEMAP
+
+          echo "=== Final framework contents ==="
+          find prebuilt/AltSign.framework -type f | sort
+
       - name: Upload prebuilt
         uses: actions/upload-artifact@v4
         with:
