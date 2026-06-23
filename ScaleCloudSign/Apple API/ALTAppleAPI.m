@@ -51,10 +51,10 @@ NS_ASSUME_NONNULL_END
         // SCKSession is a Swift struct and is not visible to ObjC; the same static methods
         // are forwarded through the ObjC-visible SCKClient class instead.
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        config.connectionProxyDictionary = [ScaleCloudKit applyProxySettings];
+        config.connectionProxyDictionary = [SCKClient applyProxySettings];
         
         _session = [NSURLSession sessionWithConfiguration:config];
-        [ScaleCloudKit registerSession:_session];
+        [SCKClient registerSession:_session];
         
         _dateFormatter = [[NSISO8601DateFormatter alloc] init];
 
